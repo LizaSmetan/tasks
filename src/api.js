@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json())
 
-router.get("/tasks", (req, res) => {
+router.get("/", (req, res) => {
   try{
     const connection = mongoose.createConnection(`mongodb+srv://user:Ki11yourself@cluster0.vjq7std.mongodb.net/?retryWrites=true&w=majority`);
     const Tasks = connection.model('tasks', TasksSchema);
@@ -26,18 +26,18 @@ router.get("/tasks", (req, res) => {
   }
   
 });
-router.use(bodyParser.json())
-router.post("/tasks", (req, res) => {
+app.use(bodyParser.json())
+router.post("/", (req, res) => {
   const {body} = req;
-  if(!req.body.text){
+  if(!body.text){
     res.status(404).send('Error');
   }
   try{
     const connection = mongoose.createConnection(`mongodb+srv://user:Ki11yourself@cluster0.vjq7std.mongodb.net/?retryWrites=true&w=majority`);
     const Tasks = connection.model('tasks', TasksSchema);
     Tasks.create({
-      text: req.body.text,
-      completed: !!req.body.completed
+      text: body.text,
+      completed: !!body.completed
     }).then(() => {
       Tasks.find().limit(20).then(response => {
         connection.close()
@@ -56,11 +56,13 @@ router.post("/tasks", (req, res) => {
   }
   
 });
-router.post("/tasks/delete", (req, res) => {
-  const {id} = req;
-  if(!req.body.id){
+router.delete("/", (req, res) => {
+  const {id} = req.query;
+  
+  if(!id){
     res.status(404).send('Error');
   }
+  
   try{
     const connection = mongoose.createConnection(`mongodb+srv://user:Ki11yourself@cluster0.vjq7std.mongodb.net/?retryWrites=true&w=majority`);
     const Tasks = connection.model('tasks', TasksSchema);
@@ -83,6 +85,8 @@ router.post("/tasks/delete", (req, res) => {
 });
 
 app.use(`/.netlify/functions/api`, router);
-
+// app.listen(8000, () => {
+//   console.log(`Now listening on port 8000`); 
+// });
 module.exports = app;
 module.exports.handler = serverless(app);
