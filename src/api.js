@@ -15,15 +15,16 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json())
 
 router.get("/", (req, res) => {
-  try{
-    const connection = mongoose.createConnection(`mongodb+srv://user:Ki11yourself@cluster0.vjq7std.mongodb.net/?retryWrites=true&w=majority`);
-    const Tasks = connection.model('tasks', TasksSchema);
-    Tasks.find().then(response => {
-      res.json(response);
-    }) 
-  } catch (e){
-    res.json(e);
-  }
+  res.json({test: "true"});
+  // try{
+  //   const connection = mongoose.createConnection(`mongodb+srv://user:Ki11yourself@cluster0.vjq7std.mongodb.net/?retryWrites=true&w=majority`);
+  //   const Tasks = connection.model('tasks', TasksSchema);
+  //   Tasks.find().then(response => {
+  //     res.json(response);
+  //   }) 
+  // } catch (e){
+  //   res.json(e);
+  // }
   
 });
 app.use(bodyParser.json())
