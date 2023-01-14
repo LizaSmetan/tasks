@@ -9,10 +9,10 @@ const TasksSchema = new mongoose.Schema({
 });
 const app = express();
 const router = express.Router();
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
-app.use(bodyParser.json())
+// app.use(bodyParser.urlencoded({
+//   extended: true
+// }));
+// app.use(bodyParser.json())
 
 router.get("/", (req, res) => {
   res.json({test: "true"});
@@ -27,7 +27,6 @@ router.get("/", (req, res) => {
   // }
   
 });
-app.use(bodyParser.json())
 router.post("/", (req, res) => {
   const {body} = req;
   if(!body.text){
